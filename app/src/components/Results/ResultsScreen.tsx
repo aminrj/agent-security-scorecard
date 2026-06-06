@@ -103,7 +103,6 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
             <RadarChart result={result} />
           </div>
           <div className={styles.benchmarkCard}>
-            <div className={styles.benchmarkEmoji}>📊</div>
             <div className={styles.benchmarkTitle}>Where most teams land</div>
             <div className={styles.benchmarkText}>
               Most teams currently deploying AI agents score in the{' '}

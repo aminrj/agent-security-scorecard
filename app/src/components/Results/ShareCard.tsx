@@ -15,11 +15,11 @@ export function ShareCard({ result, shareUrl }: Props) {
   const bandColor = BAND_COLORS[result.global_band];
 
   const linkedinText = encodeURIComponent(
-    `I just scored my AI agents against the OWASP Agentic Top 10 2026.\n\nResult: ${result.global_score}/100 — "${result.archetype}" (${result.global_band})\n\n${result.archetype_subtitle}\n\nMost teams deploying agents land in "Reactive." Where do you stand?\n\nTake the 12-min free assessment 👇`
+    `I just scored my AI agents against the OWASP Agentic Top 10 2026.\n\nResult: ${result.global_score}/100 — "${result.archetype}" (${result.global_band})\n\n${result.archetype_subtitle}\n\nMost teams deploying agents land in "Reactive." Where do you stand?\n\nFree 12-min assessment:`
   );
 
   const twitterText = encodeURIComponent(
-    `Scored my AI agents against OWASP Agentic 2026: ${result.global_score}/100 — "${result.archetype}" (${result.global_band})\n\n${result.archetype_subtitle}\n\nFree 12-min assessment 👇`
+    `Scored my AI agents against OWASP Agentic 2026: ${result.global_score}/100 — "${result.archetype}" (${result.global_band})\n\n${result.archetype_subtitle}\n\nFree 12-min assessment:`
   );
 
   const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&summary=${linkedinText}`;
@@ -37,7 +37,7 @@ export function ShareCard({ result, shareUrl }: Props) {
     <div className={styles.root}>
       <h2 className={styles.title}>Share your result</h2>
       <p className={styles.subtitle}>
-        The archetype + score is your shareable unit. "I'm an Optimistic Adopter 😅" lands on LinkedIn.
+        Archetype + score is your shareable unit — paste it to LinkedIn or copy the full post text below.
       </p>
 
       <div className={styles.card} style={{ borderColor: bandColor + '44' }}>
