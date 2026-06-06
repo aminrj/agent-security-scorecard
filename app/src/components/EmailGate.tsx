@@ -29,21 +29,21 @@ export function EmailGate({ result, answers, onSubmitted }: Props) {
     setState('submitting');
     setErrorMsg('');
 
-    try {
-      await subscribeToBeehiiv(email);
-      track('Email Submitted', { band: result.global_band, score: result.global_score });
-    } catch {
-      // Non-fatal — PDF still generates even if subscription fails
-    }
-
+    // Generate PDF first — browsers are more permissive with downloads
+    // when triggered close to the user gesture
     try {
       await generatePDF(result, answers, email);
     } catch (err) {
       console.error('PDF generation failed:', err);
       setState('error');
-      setErrorMsg('PDF generation failed. Try refreshing the page.');
+      setErrorMsg('PDF generation failed. Please try again or refresh the page.');
       return;
     }
+
+    // Subscribe in background — non-fatal if it fails
+    subscribeToBeehiiv(email)
+      .then(() => track('Email Submitted', { band: result.global_band, score: result.global_score }))
+      .catch(() => {});
 
     setState('done');
     onSubmitted();
@@ -63,9 +63,8 @@ export function EmailGate({ result, answers, onSubmitted }: Props) {
           <h3 className={styles.title}>Get your full remediation report</h3>
           <p className={styles.desc}>
             A branded PDF with your radar, all 20 answers, and a complete
-            ASI-mapped remediation roadmap. Plus the{' '}
-            <strong>AI Security Intelligence</strong> newsletter — unsubscribe
-            anytime.
+            ASI-mapped remediation roadmap — <strong>downloads instantly to your device</strong>.
+            Plus the <strong>AI Security Intelligence</strong> newsletter — unsubscribe anytime.
           </p>
         </div>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -102,7 +101,7 @@ export function EmailGate({ result, answers, onSubmitted }: Props) {
           </div>
           {errorMsg && <p className={styles.error}>{errorMsg}</p>}
           <p className={styles.fine}>
-            No spam. Unsubscribe anytime. Your assessment data never leaves your browser.
+            PDF downloads directly in your browser — no email attachment. Newsletter signup only. Unsubscribe anytime.
           </p>
         </form>
       </div>

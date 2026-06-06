@@ -123,7 +123,7 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
 
             {result.global_score <= 50 && (
               <a
-                href="https://molntek.com/ai-security-sprint"
+                href="https://molntek.com/services/ai-security-assessment"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.sprintCta}
@@ -164,7 +164,7 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
         ) : (
           <section className={styles.emailDoneSection}>
             <div className={styles.emailDone}>
-              ✓ Report on its way — check your inbox.
+              ✓ PDF downloaded — check your Downloads folder. You're also subscribed to AI Security Intelligence.
             </div>
           </section>
         )}
