@@ -95,6 +95,6 @@
   </g>
 
   <!-- Bottom brand line -->
-  <text x="80" y="590" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#4f5769">agentsecurity.molntek.com</text>
+  <text x="80" y="590" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#4f5769">agent-security-scorecard.pages.dev</text>
   <text x="1120" y="590" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#4f5769" text-anchor="end">OWASP Agentic 2026</text>
 </svg>

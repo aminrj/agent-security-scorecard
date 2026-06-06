@@ -123,7 +123,7 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
 
             {result.global_score <= 50 && (
               <a
-                href="https://molntek.com"
+                href="https://molntek.com/ai-security-sprint"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.sprintCta}
