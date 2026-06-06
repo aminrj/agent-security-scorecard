@@ -1,0 +1,129 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+
+.answered {
+  border-color: var(--border-active);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.qNum {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+}
+
+.asiRef {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+.questionText {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+  width: 100%;
+}
+
+.option:hover {
+  border-color: var(--border-active);
+  background: var(--bg-card-hover);
+}
+
+.optionSelected {
+  border-color: var(--accent);
+}
+
+.optionScore {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.optionLabel {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  padding-top: 4px;
+}
+
+.optionSelected .optionLabel {
+  color: var(--text-primary);
+}
+
+.optionNa {
+  opacity: 0.7;
+}
+
+.optionNaSelected {
+  opacity: 1;
+  border-color: var(--text-muted);
+  background: rgba(79, 87, 105, 0.1);
+}
+
+.optionNaSelected .optionLabel {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 500px) {
+  .card {
+    padding: 16px;
+  }
+
+  .questionText {
+    font-size: 15px;
+  }
+
+  .optionLabel {
+    font-size: 13px;
+  }
+}

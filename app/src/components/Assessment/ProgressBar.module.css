@@ -1,0 +1,96 @@
+.root {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 11, 13, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+}
+
+.inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.domainDots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.dotDone .dotLabel {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.dotActive {
+  border: 1px solid;
+}
+
+.dotLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.barWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-input);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background 0.3s;
+}
+
+.count {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+@media (max-width: 500px) {
+  .domainDots {
+    gap: 2px;
+  }
+
+  .dotLabel {
+    display: none;
+  }
+
+  .dot {
+    padding: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+}
