@@ -1,4 +1,3 @@
-import jsPDF from 'jspdf';
 import type { AssessmentResult, Answers } from '../data/scoring';
 import { BAND_COLORS } from '../data/scoring';
 import { QUESTIONS, DOMAINS, ASI_DESCRIPTIONS } from '../data/questions';
@@ -15,6 +14,7 @@ export async function generatePDF(
   answers: Answers,
   email: string
 ): Promise<void> {
+  const { default: jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const W = 210;
   const MARGIN = 18;

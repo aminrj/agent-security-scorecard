@@ -18,6 +18,7 @@ interface Props {
 
 export function ResultsScreen({ result, answers, context, onRestart }: Props) {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const emailSectionRef = useRef<HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const bandColor = BAND_COLORS[result.global_band];
@@ -81,7 +82,10 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
             </button>
             <button
               className={styles.reportBtn}
-              onClick={() => setEmailSubmitted(false)}
+              onClick={() => {
+                setEmailSubmitted(false);
+                setTimeout(() => emailSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50);
+              }}
             >
               <Download size={15} />
               Get PDF report
@@ -150,7 +154,7 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
 
         {/* Email gate */}
         {!emailSubmitted ? (
-          <section className={styles.emailSection}>
+          <section className={styles.emailSection} ref={emailSectionRef}>
             <EmailGate
               result={result}
               answers={answers}
