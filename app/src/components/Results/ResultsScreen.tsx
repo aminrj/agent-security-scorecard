@@ -173,6 +173,37 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
           <ShareCard result={result} shareUrl={shareUrl} />
         </section>
 
+        {/* Scoring methodology */}
+        <section className={styles.methodology}>
+          <h3 className={styles.methodologyTitle}>How your score is calculated</h3>
+          <div className={styles.methodologyGrid}>
+            <div className={styles.methodologyItem}>
+              <span className={styles.methodologyLabel}>Questions</span>
+              <span className={styles.methodologyText}>20 questions across 5 domains (4 each). Every answer is 0–3: 0 = no control, 1 = informal, 2 = defined, 3 = enforced. N/A counts as 0.</span>
+            </div>
+            <div className={styles.methodologyItem}>
+              <span className={styles.methodologyLabel}>Domain score</span>
+              <span className={styles.methodologyText}>Mean of the 4 answers in the domain, normalized to 0–100. Example: answers 0, 1, 2, 1 → mean 1.0 → 33/100.</span>
+            </div>
+            <div className={styles.methodologyItem}>
+              <span className={styles.methodologyLabel}>Global score</span>
+              <span className={styles.methodologyText}>Simple mean of all 5 domain scores. No domain is weighted higher — the shape (which domains are weak) matters more than the average.</span>
+            </div>
+            <div className={styles.methodologyItem}>
+              <span className={styles.methodologyLabel}>Bands</span>
+              <span className={styles.methodologyText}>Exposed 0–25 · Reactive 26–50 · Managed 51–75 · Resilient 76–100. Thresholds are fixed; the benchmark line compares you to typical teams.</span>
+            </div>
+            <div className={styles.methodologyItem}>
+              <span className={styles.methodologyLabel}>Archetype</span>
+              <span className={styles.methodologyText}>7 deterministic rules evaluated top-to-bottom on the shape of your 5 domain scores — not the global average. A 48/100 with one domain at 17 fires "Lopsided Fortress", not "Balanced."</span>
+            </div>
+            <div className={styles.methodologyItem}>
+              <span className={styles.methodologyLabel}>Top-3 risks</span>
+              <span className={styles.methodologyText}>Each question gets a risk score: (3 − your answer) × severity weight, where severity is a fixed 1–20 ranking of how dangerous each control gap is. Top-3 are selected with a domain-diversity rule so one domain can't dominate the list.</span>
+            </div>
+          </div>
+        </section>
+
         {/* Footer */}
         <footer className={styles.footer}>
           <p>

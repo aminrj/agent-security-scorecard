@@ -109,7 +109,7 @@ export function Landing({ onStart }: Props) {
 const DOMAIN_PREVIEWS = [
   { id: 'A', name: 'Agent Inventory & Governance',      asi: 'ASI10 — Rogue Agents',             color: '#6366f1' },
   { id: 'B', name: 'Identity, Access & Least Agency',   asi: 'ASI02, ASI03 — Privilege Abuse',   color: '#8b5cf6' },
-  { id: 'C', name: 'Input Trust & Cognition',           asi: 'ASI01, ASI06 — Goal Hijack',       color: '#ec4899' },
+  { id: 'C', name: 'Input Trust & Cognition Integrity',  asi: 'ASI01, ASI06 — Goal Hijack',       color: '#ec4899' },
   { id: 'D', name: 'Execution & Supply Chain',          asi: 'ASI04, ASI05, ASI07',              color: '#f59e0b' },
   { id: 'E', name: 'Detection, Response & Containment', asi: 'ASI08, ASI09, ASI10',              color: '#10b981' },
 ];
@@ -118,7 +118,7 @@ const OUTPUT_ITEMS = [
   {
     icon: <Award size={17} strokeWidth={1.8} />,
     title: 'Named archetype',
-    desc: 'Optimistic Adopter, Blind Operator, Cautious Builder — a shareable posture identity.',
+    desc: 'Lopsided Fortress, Blind Operator, Methodical Builder — a shareable posture identity.',
   },
   {
     icon: <BarChart2 size={17} strokeWidth={1.8} />,

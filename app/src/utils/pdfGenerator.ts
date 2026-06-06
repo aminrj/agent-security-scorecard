@@ -494,7 +494,7 @@ export async function generatePDF(
     y = ruledSection(isDirect ? 'WANT HELP CLOSING THESE GAPS?' : 'KEEP YOUR EDGE', y);
 
     const ctaBody = isDirect
-      ? `A weak ${theme} layer is the most common pattern we see in teams shipping agents — and the most fixable. The Molntek AI Security Sprint is a focused engagement that closes exactly the gaps in your top three above: per-agent identity, least-agency scoping, and a tested kill-switch.`
+      ? `A weak ${theme} posture is the most common pattern we see in teams shipping agents — and the most fixable. The Molntek AI Security Sprint is a focused engagement that closes exactly the gaps in your top three above.`
       : "You're ahead of most teams. The AI Security Intelligence newsletter covers agentic security developments — OWASP updates, new attack classes, and field patterns — every week.";
 
     doc.setFillColor(...C.rowalt);

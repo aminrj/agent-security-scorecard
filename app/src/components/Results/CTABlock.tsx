@@ -15,9 +15,9 @@ export function CTABlock({ result }: Props) {
       <div className={`${styles.root} ${styles.rootDirect}`}>
         <h3 className={styles.heading}>Want help closing these gaps?</h3>
         <p className={styles.body}>
-          A weak {theme} layer is the most common pattern we see in teams shipping agents — and the most fixable.
+          A weak <strong>{theme}</strong> posture is the most common pattern we see in teams shipping agents — and the most fixable.
           The <strong>Molntek AI Security Sprint</strong> is a focused engagement that closes exactly the gaps
-          in your top three above: per-agent identity, least-agency scoping, and a tested kill-switch.
+          in your top three above.
         </p>
         <div className={styles.actions}>
           <a href={CTA_BOOKING_URL} target="_blank" rel="noopener noreferrer" className={styles.primary}>

@@ -84,7 +84,7 @@ export function RadarChart({ result }: Props) {
         position: 'bottom' as const,
         labels: {
           color: '#8892a4',
-          font: { size: 11, family: 'Inter' },
+          font: { size: 11, family: 'JetBrains Mono' },
           padding: 16,
           usePointStyle: true,
           pointStyleWidth: 8,
