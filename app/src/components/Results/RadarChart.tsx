@@ -73,7 +73,7 @@ export function RadarChart({ result }: Props) {
           font: {
             size: 12,
             weight: 'bold' as const,
-            family: 'Inter',
+            family: 'JetBrains Mono',
           },
         },
       },

@@ -4,6 +4,8 @@ import { BAND_COLORS, BAND_DESCRIPTIONS, encodeAnswers } from '../../data/scorin
 import { RadarChart } from './RadarChart';
 import { TopRisks } from './TopRisks';
 import { DomainBreakdown } from './DomainBreakdown';
+import { RoadmapSection } from './RoadmapSection';
+import { CTABlock } from './CTABlock';
 import { EmailGate } from '../EmailGate';
 import { ShareCard } from './ShareCard';
 import { RotateCcw, Download, Share2, Shield } from 'lucide-react';
@@ -19,7 +21,6 @@ interface Props {
 export function ResultsScreen({ result, answers, context, onRestart }: Props) {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const emailSectionRef = useRef<HTMLElement>(null);
-  const resultsRef = useRef<HTMLDivElement>(null);
 
   const bandColor = BAND_COLORS[result.global_band];
   const shareUrl = `${window.location.origin}${window.location.pathname}#r=${encodeAnswers(answers)}`;
@@ -43,21 +44,21 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
   }
 
   return (
-    <div className={styles.root} ref={resultsRef}>
+    <div className={styles.root}>
       {/* Nav */}
       <nav className={styles.nav}>
         <div className={styles.navLogo}>
-          <Shield size={18} color="#6366f1" />
+          <Shield size={16} color="#6366f1" strokeWidth={2} />
           <span>Agent Security Scorecard</span>
         </div>
         <button className={styles.navRestart} onClick={onRestart}>
-          <RotateCcw size={14} />
+          <RotateCcw size={13} />
           Retake
         </button>
       </nav>
 
       <div className={styles.container}>
-        {/* Headline card */}
+        {/* Hero */}
         <div className={styles.heroCard} style={{ borderColor: bandColor + '44' }}>
           <div className={styles.bandBadge} style={{ color: bandColor, background: bandColor + '18', borderColor: bandColor + '44' }}>
             {result.global_band}
@@ -68,13 +69,14 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
             </span>
             <span className={styles.scoreOf}>/100</span>
           </div>
+          <p className={styles.benchmarkLine}>{result.benchmark_line}</p>
           <h1 className={styles.archetype}>{result.archetype}</h1>
           <p className={styles.archetypeSubtitle}>{result.archetype_subtitle}</p>
           <p className={styles.bandDesc}>{BAND_DESCRIPTIONS[result.global_band]}</p>
 
           <div className={styles.heroActions}>
             <button className={styles.shareBtn} onClick={handleShare}>
-              <Share2 size={15} />
+              <Share2 size={14} />
               Share result
             </button>
             <button className={styles.copyBtn} onClick={handleCopyLink}>
@@ -87,13 +89,13 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
                 setTimeout(() => emailSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50);
               }}
             >
-              <Download size={15} />
+              <Download size={14} />
               Get PDF report
             </button>
           </div>
         </div>
 
-        {/* Radar + benchmark */}
+        {/* Radar + benchmark sidebar */}
         <div className={styles.radarSection}>
           <div className={styles.radarWrap}>
             <h2 className={styles.sectionTitle}>Your security posture</h2>
@@ -119,20 +121,6 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
                 Detection gaps carry the highest incident probability.
               </div>
             )}
-
-            {result.global_score <= 50 && (
-              <a
-                href="https://molntek.com/services/ai-security-assessment"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.sprintCta}
-              >
-                <span>Want expert help closing these gaps?</span>
-                <span className={styles.sprintCtaLink}>
-                  Molntek AI Security Sprint →
-                </span>
-              </a>
-            )}
           </div>
         </div>
 
@@ -140,15 +128,27 @@ export function ResultsScreen({ result, answers, context, onRestart }: Props) {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Your three biggest risks</h2>
           <p className={styles.sectionSub}>
-            Ranked by score gap. Each includes the OWASP ASI item, a concrete first action, and a verification check.
+            Ranked by severity × gap. Each includes the OWASP ASI item, a concrete first action, and a verification check.
           </p>
           <TopRisks risks={result.top3_risks} />
         </section>
+
+        {/* 30-day roadmap */}
+        {result.roadmap_items.length > 0 && (
+          <section className={styles.section}>
+            <RoadmapSection items={result.roadmap_items} />
+          </section>
+        )}
 
         {/* Domain breakdown */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Full domain breakdown</h2>
           <DomainBreakdown domainResults={result.domain_results} />
+        </section>
+
+        {/* CTA */}
+        <section className={styles.section}>
+          <CTABlock result={result} />
         </section>
 
         {/* Email gate */}

@@ -113,6 +113,15 @@
   margin-bottom: 8px;
 }
 
+.benchmarkLine {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0 auto 20px;
+  line-height: 1.55;
+  font-style: italic;
+}
+
 .archetypeSubtitle {
   font-size: 15px;
   color: var(--text-secondary);
@@ -250,33 +259,6 @@
   padding: 10px 14px;
   border-radius: var(--radius-sm);
   line-height: 1.5;
-}
-
-.sprintCta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  padding: 14px 16px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  transition: border-color 0.15s;
-}
-
-.sprintCta:hover {
-  border-color: rgba(239, 68, 68, 0.4);
-}
-
-.sprintCta span {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.sprintCtaLink {
-  color: #ef4444 !important;
-  font-weight: 600;
-  font-size: 13px !important;
 }
 
 /* Sections */

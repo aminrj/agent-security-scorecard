@@ -1,5 +1,5 @@
 import type { AssessmentResult, Answers } from '../data/scoring';
-import { BAND_COLORS } from '../data/scoring';
+import { BAND_COLORS, CTA_BOOKING_URL, CTA_NEWSLETTER_URL, getTop3DomainTheme } from '../data/scoring';
 import { QUESTIONS, DOMAINS, ASI_DESCRIPTIONS } from '../data/questions';
 
 // Molntek report palette — printable, white background
@@ -176,6 +176,16 @@ export async function generatePDF(
 
   y += 60;
 
+  // Benchmark line (Defect 4)
+  if (result.benchmark_line) {
+    const benchLines = doc.splitTextToSize(result.benchmark_line, COL);
+    doc.setFontSize(8);
+    setFont('normal');
+    doc.setTextColor(...C.inksoft);
+    doc.text(benchLines, MARGIN, y);
+    y += benchLines.length * 4.5 + 6;
+  }
+
   // Domain scores table
   y = ruledSection('Domain Scores', y);
 
@@ -349,7 +359,58 @@ export async function generatePDF(
   });
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // PAGE 3+ — Full Assessment Q&A
+  // PAGE 3 — 30-day Roadmap (Defect 6)
+  // ─────────────────────────────────────────────────────────────────────────────
+  if (result.roadmap_items.length > 0) {
+    checkPage(40);
+    const roadmapTitle = result.roadmap_items.length < 3
+      ? 'YOUR PRIORITIES'
+      : 'YOUR 30-DAY ORDER OF OPERATIONS';
+    y = ruledSection(roadmapTitle, y);
+
+    doc.setFontSize(8);
+    setFont('normal');
+    doc.setTextColor(...C.inksoft);
+    doc.text('Tackle these in order. Each builds on the last.', MARGIN, y);
+    y += 7;
+
+    result.roadmap_items.forEach((item, i) => {
+      const actionLines = doc.splitTextToSize(item.action + '.', COL - 22);
+      const rowH = actionLines.length * 4.5 + 7;
+      checkPage(rowH);
+
+      if (i % 2 === 0) {
+        doc.setFillColor(...C.rowalt);
+        doc.rect(MARGIN, y - 2, COL, rowH, 'F');
+      }
+
+      // Number badge
+      doc.setFillColor(...C.accent);
+      doc.roundedRect(MARGIN, y, 6, 6, 1, 1, 'F');
+      doc.setFontSize(6);
+      setFont('bold');
+      doc.setTextColor(...C.white);
+      doc.text(`${i + 1}`, MARGIN + 3, y + 4.5, { align: 'center' });
+
+      // Action text
+      doc.setFontSize(8);
+      setFont('normal');
+      doc.setTextColor(...C.ink);
+      doc.text(actionLines, MARGIN + 9, y + 4);
+
+      // ASI tag
+      doc.setFontSize(7);
+      doc.setTextColor(...C.inksoft);
+      doc.text(item.asi_tag, W - MARGIN, y + 4, { align: 'right' });
+
+      y += rowH;
+    });
+
+    y += 8;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PAGE — Full Assessment Q&A
   // ─────────────────────────────────────────────────────────────────────────────
   doc.addPage();
   fillPage();
@@ -420,6 +481,54 @@ export async function generatePDF(
 
     y += 5;
   });
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CTA Block (Defect 5) — final content on last page
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    const isDirect = result.global_band === 'Exposed' || result.global_band === 'Reactive';
+    const theme = getTop3DomainTheme(result.top3_risks);
+
+    checkPage(55);
+
+    y = ruledSection(isDirect ? 'WANT HELP CLOSING THESE GAPS?' : 'KEEP YOUR EDGE', y);
+
+    const ctaBody = isDirect
+      ? `A weak ${theme} layer is the most common pattern we see in teams shipping agents — and the most fixable. The Molntek AI Security Sprint is a focused engagement that closes exactly the gaps in your top three above: per-agent identity, least-agency scoping, and a tested kill-switch.`
+      : "You're ahead of most teams. The AI Security Intelligence newsletter covers agentic security developments — OWASP updates, new attack classes, and field patterns — every week.";
+
+    doc.setFillColor(...C.rowalt);
+    const ctaLines = doc.splitTextToSize(ctaBody, COL - 6);
+    const ctaBoxH = ctaLines.length * 4.5 + 22;
+    doc.rect(MARGIN, y, COL, ctaBoxH, 'F');
+    doc.setFillColor(...C.accent);
+    doc.rect(MARGIN, y, 2.5, ctaBoxH, 'F');
+
+    doc.setFontSize(8.5);
+    setFont('normal');
+    doc.setTextColor(...C.ink);
+    doc.text(ctaLines, MARGIN + 6, y + 7);
+
+    const linkY = y + ctaLines.length * 4.5 + 13;
+    const primaryLink = isDirect ? CTA_BOOKING_URL : CTA_NEWSLETTER_URL;
+    const secondaryLink = isDirect ? CTA_NEWSLETTER_URL : CTA_BOOKING_URL;
+    const primaryLabel = isDirect ? 'Book a 30-min Agent Security review →' : 'Read the newsletter →';
+    const secondaryLabel = isDirect
+      ? 'Not ready? The AI Security Intelligence newsletter →'
+      : 'Running a complex agent estate? Molntek Agentic AI Security Review →';
+
+    doc.setFontSize(8);
+    setFont('bold');
+    doc.setTextColor(...C.accent);
+    doc.textWithLink(primaryLabel, MARGIN + 6, linkY, { url: primaryLink });
+
+    doc.setFontSize(7.5);
+    setFont('normal');
+    doc.setTextColor(...C.inksoft);
+    doc.textWithLink(secondaryLabel, MARGIN + 6, linkY + 6, { url: secondaryLink });
+
+    y += ctaBoxH + 10;
+  }
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Footer on every page

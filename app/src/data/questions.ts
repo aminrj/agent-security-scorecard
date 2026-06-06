@@ -23,7 +23,7 @@ export const DOMAINS: Domain[] = [
   {
     id: 'A',
     name: 'Agent Inventory & Governance',
-    shortName: 'Governance',
+    shortName: 'Inventory & Governance',
     asi_refs: ['ASI10'],
     intro_copy:
       'Do you know your agents exist, who owns them, and is there a gate before they ship? Without a live inventory and clear ownership, every downstream control is guesswork.',
@@ -32,7 +32,7 @@ export const DOMAINS: Domain[] = [
   {
     id: 'B',
     name: 'Identity, Access & Least Agency',
-    shortName: 'Identity',
+    shortName: 'Identity & Access',
     asi_refs: ['ASI02', 'ASI03'],
     intro_copy:
       'Whether agents get their own scoped identity and the minimum permissions to do the job. The autonomy–permission paradox is the most common over-provision trap.',
@@ -41,7 +41,7 @@ export const DOMAINS: Domain[] = [
   {
     id: 'C',
     name: 'Input Trust & Cognition Integrity',
-    shortName: 'Cognition',
+    shortName: 'Cognition Integrity',
     asi_refs: ['ASI01', 'ASI06'],
     intro_copy:
       "Whether external or retrieved content is treated as untrusted and whether your agent's memory can be poisoned. Agents can't reliably separate instructions from data — you have to enforce that boundary.",
@@ -50,7 +50,7 @@ export const DOMAINS: Domain[] = [
   {
     id: 'D',
     name: 'Execution & Supply Chain Safety',
-    shortName: 'Supply Chain',
+    shortName: 'Execution & Supply Chain',
     asi_refs: ['ASI04', 'ASI05', 'ASI07'],
     intro_copy:
       'Sandboxing of actions, trust in tools and MCP servers, and safe agent-to-agent communication. 2026 saw the first agent-skill registry poisoned at scale.',
@@ -59,7 +59,7 @@ export const DOMAINS: Domain[] = [
   {
     id: 'E',
     name: 'Detection, Response & Containment',
-    shortName: 'Detection',
+    shortName: 'Detection & Response',
     asi_refs: ['ASI08', 'ASI09', 'ASI10'],
     intro_copy:
       "Whether you can see, replay, and stop agent misbehavior. Cascading failures and rogue agents are invisible until they detonate — if you can't replay the decision chain, you can't fix the root cause.",
