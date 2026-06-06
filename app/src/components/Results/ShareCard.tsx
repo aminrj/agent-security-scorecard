@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { AssessmentResult } from '../../data/scoring';
 import { BAND_COLORS } from '../../data/scoring';
 import { Copy, ExternalLink } from 'lucide-react';
+import { track } from '../../utils/analytics';
 import styles from './ShareCard.module.css';
 
 interface Props {
@@ -29,6 +30,7 @@ export function ShareCard({ result, shareUrl }: Props) {
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
+    track('Share Clicked', { channel: 'copy', band: result.global_band });
   }
 
   return (
@@ -57,11 +59,15 @@ export function ShareCard({ result, shareUrl }: Props) {
       </div>
 
       <div className={styles.actions}>
-        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className={`${styles.action} ${styles.actionLinkedin}`}>
+        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer"
+          className={`${styles.action} ${styles.actionLinkedin}`}
+          onClick={() => track('Share Clicked', { channel: 'linkedin', band: result.global_band })}>
           <ExternalLink size={15} />
           Share on LinkedIn
         </a>
-        <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className={`${styles.action} ${styles.actionTwitter}`}>
+        <a href={twitterUrl} target="_blank" rel="noopener noreferrer"
+          className={`${styles.action} ${styles.actionTwitter}`}
+          onClick={() => track('Share Clicked', { channel: 'twitter', band: result.global_band })}>
           <ExternalLink size={15} />
           Post on X
         </a>

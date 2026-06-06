@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { AssessmentResult, Answers } from '../data/scoring';
 import { generatePDF } from '../utils/pdfGenerator';
+import { getUtmParams } from '../utils/utm';
+import { track } from '../utils/analytics';
 import { Mail, Download, Loader } from 'lucide-react';
 import styles from './EmailGate.module.css';
 
@@ -29,14 +31,18 @@ export function EmailGate({ result, answers, onSubmitted }: Props) {
 
     try {
       await subscribeToBeehiiv(email);
+      track('Email Submitted', { band: result.global_band, score: result.global_score });
     } catch {
-      // Non-fatal — still generate the PDF
+      // Non-fatal — PDF still generates even if subscription fails
     }
 
     try {
       await generatePDF(result, answers, email);
     } catch (err) {
       console.error('PDF generation failed:', err);
+      setState('error');
+      setErrorMsg('PDF generation failed. Try refreshing the page.');
+      return;
     }
 
     setState('done');
@@ -71,7 +77,7 @@ export function EmailGate({ result, answers, onSubmitted }: Props) {
                 className={styles.input}
                 placeholder="your@email.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => { setEmail(e.target.value); setErrorMsg(''); }}
                 disabled={state === 'submitting'}
                 required
               />
@@ -105,33 +111,20 @@ export function EmailGate({ result, answers, onSubmitted }: Props) {
 }
 
 async function subscribeToBeehiiv(email: string): Promise<void> {
-  // Replace VITE_BEEHIIV_PUBLICATION_ID with your actual publication ID
-  // and ensure the Beehiiv API key is set via a serverless function or proxy
-  // for production use. For this MVP, we use the public subscribe form endpoint.
-  const publicationId = import.meta.env.VITE_BEEHIIV_PUBLICATION_ID;
-  if (!publicationId) return;
+  const utm = getUtmParams();
 
-  const res = await fetch(
-    `https://api.beehiiv.com/v2/publications/${publicationId}/subscriptions`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // Note: For production, proxy through a serverless function to keep
-        // the API key off the client. This is a lead magnet MVP.
-        Authorization: `Bearer ${import.meta.env.VITE_BEEHIIV_API_KEY ?? ''}`,
-      },
-      body: JSON.stringify({
-        email,
-        reactivate_existing: true,
-        send_welcome_email: true,
-        utm_source: 'agent-security-scorecard',
-        utm_medium: 'assessment',
-      }),
-    }
-  );
+  const res = await fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email,
+      utm_source: utm.utm_source ?? 'agent-security-scorecard',
+      utm_medium: utm.utm_medium ?? 'assessment',
+      utm_campaign: utm.utm_campaign ?? 'organic',
+    }),
+  });
 
   if (!res.ok) {
-    throw new Error(`Beehiiv subscription failed: ${res.status}`);
+    throw new Error(`Subscribe failed: ${res.status}`);
   }
 }

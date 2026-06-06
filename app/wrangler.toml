@@ -1,0 +1,8 @@
+name = "agent-security-scorecard"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "dist"
+
+# Local dev: wrangler pages dev dist --compatibility-date=2024-01-01
+# Secrets (set via `wrangler pages secret put`):
+#   BEEHIIV_API_KEY
+#   BEEHIIV_PUBLICATION_ID

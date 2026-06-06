@@ -6,6 +6,8 @@ import { ComputingScreen } from './components/ComputingScreen';
 import { ResultsScreen } from './components/Results/ResultsScreen';
 import type { Answers, ContextData, AssessmentResult } from './data/scoring';
 import { computeResult, decodeAnswers } from './data/scoring';
+import { getUtmParams } from './utils/utm';
+import { track } from './utils/analytics';
 
 export type Screen = 'landing' | 'context' | 'assessment' | 'computing' | 'results';
 
@@ -16,6 +18,9 @@ function App() {
   const [result, setResult] = useState<AssessmentResult | null>(null);
 
   useEffect(() => {
+    // Capture UTMs on first load so they survive the multi-screen flow
+    getUtmParams();
+
     const hash = window.location.hash.slice(1);
     if (hash.startsWith('r=')) {
       const encoded = hash.slice(2);
@@ -30,6 +35,7 @@ function App() {
   }, []);
 
   function handleStart() {
+    track('Assessment Started');
     setScreen('context');
   }
 
@@ -40,12 +46,14 @@ function App() {
 
   function handleAssessmentComplete(a: Answers) {
     setAnswers(a);
+    track('Assessment Completed');
     setScreen('computing');
   }
 
   function handleComputingDone() {
     const computed = computeResult(answers);
     setResult(computed);
+    track('Results Viewed', { band: computed.global_band, score: computed.global_score, archetype: computed.archetype });
     setScreen('results');
   }
 
