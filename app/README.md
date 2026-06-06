@@ -1,6 +1,32 @@
 # Agent Security Scorecard
 
-20-question self-assessment scored against the OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10). Client-side SPA — no backend required. One serverless function for Beehiiv newsletter capture.
+> *Are your AI agents locked down? Find out in 12 minutes.*
+
+A 20-question quiz that tells you how secure your AI agents actually are — scored against the OWASP Top 10 for Agentic Applications 2026, the current authoritative standard for agentic AI risk.
+
+## Why it exists
+
+AI agents hold credentials, send emails, write to databases, and chain tool calls on your behalf. Most teams deploying them have no inventory of what agents exist, no scoped permissions, and no way to stop one if it goes rogue. They don't know they're exposed until something breaks.
+
+This tells you *which* of those gaps you have and *what to fix first* — instead of handing you a 40-page framework PDF and leaving you to figure it out.
+
+## What you get
+
+- A **score (0–100)** across four maturity bands: Exposed → Reactive → Managed → Resilient
+- A **named archetype** ("Optimistic Adopter", "Blind Operator", etc.) that describes your security *shape*, not just a number
+- A **radar chart** across 5 risk domains (Governance, Identity, Cognition, Supply Chain, Detection)
+- Your **top 3 gaps**, each with a concrete action to take this week and a way to verify you fixed it
+- A **PDF report** with the full breakdown — email required for that part, everything else is instant and ungated
+
+## Who it's for
+
+Security engineers, AppSec leads, and CISOs deploying or evaluating AI agents who need to know where they stand — in an afternoon, for free, without a vendor sales call.
+
+## How to use it
+
+Free, no account, runs entirely in the browser. Go to the URL, answer 20 questions, see your result immediately. Email is only needed if you want the PDF remediation report.
+
+---
 
 ## Dev
 
@@ -13,7 +39,7 @@ npm run preview    # preview the production build
 
 ## Deploy — Cloudflare Pages (recommended)
 
-1. **Connect repo** to Cloudflare Pages (Settings → Build: `npm run build`, output: `dist`).
+1. **Connect repo** to Cloudflare Pages (Settings → Build: `npm run build`, output: `dist`, root: `app`).
 2. **Set secrets** in Pages → Settings → Environment variables:
    - `BEEHIIV_API_KEY` (secret) — from Beehiiv dashboard → Settings → API
    - `BEEHIIV_PUBLICATION_ID` (plain text) — e.g. `pub_xxxxxxxx-...`
